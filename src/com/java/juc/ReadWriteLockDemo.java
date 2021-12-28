@@ -31,14 +31,14 @@ public class ReadWriteLockDemo {
 			final int tempInt = i;
 			new Thread(() -> {
 				myCache.putData("" + tempInt, "" + tempInt);
-			},String.valueOf(i)).start();
+			}, String.valueOf(i)).start();
 		}
 
 		for (int i = 1; i <= 5; i++) {
 			final int tempInt = i;
 			new Thread(() -> {
 				myCache.getData("" + tempInt);
-			},String.valueOf(i)).start();
+			}, String.valueOf(i)).start();
 		}
 	}
 }

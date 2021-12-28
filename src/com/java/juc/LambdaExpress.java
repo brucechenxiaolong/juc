@@ -1,121 +1,107 @@
 package com.java.juc;
 
 /**
- *
- * 前提：java8
- * 1.接口式函数定义规则：增加注解 @FunctionalInterface (只要接口类有注解：@FunctionalInterface 进行修饰就能用Lambda表达式)
- * 2.接口式函数的方法只能有一个
- * 3.可以定义多个默认方法有方法体
- * 4.可以定义多个静态方法并且有方法体
- *
- */
-@FunctionalInterface
-interface Operation{
-	//	public void sayHello();
-	public int calculatexx(int x, int y);
-	/**
-	 * java8 接口也有方法体
-	 * 可以定义多个方法有方法体
-	 */
-	public default int mul(int x, int y) {
-		return x*y;
-	}
-
-	public default int mul2(int x, int y) {
-		return x*y;
-	}
-
-	/**
-	 * java8 接口也有静态方法体
-	 * 可以定义多个静态方法并且有方法体
-	 */
-	public static int div(int x, int y) {
-		return x/y;
-	}
-
-	public static int div2(int x, int y) {
-		return x/y;
-	}
-}
-
-/**
- * 实现接口Operation
- */
-class Xxx implements Operation{
-
-	@Override
-	public int calculatexx(int x, int y) {
-		return x+y+x;
-	}
-
-}
-
-//普通接口，可以定义多个无方法体的方法
-interface Operation2{
-	public void sayHello();
-	public int calculatexx(int x, int y);
-
-	public default int mul(int x, int y) {
-		return x*y;
-	}
-
-	public static int div2(int x, int y) {
-		return x/y;
-	}
-}
-
-/**
- *
- * @author bruce
  * 1 函数式编程
  * 2
  * lambdaExpress表达式
  * 1.语法：() -> {}  小括号，写死右箭头，实现方法大括号
  * 2.@FunctionalInterface - 函数式接口
  * 3.default
- *
  */
 public class LambdaExpress {
+
+	//2.静态内部类
+	static class IfaceImpl2 implements Iface{
+		@Override
+		public void run() {
+			System.out.println("I like lambda2");
+		}
+	}
+
 	public static void main(String[] args) {
+		Iface face = new IfaceImpl();
+		face.run();
+		Iface.xx();
 
-		/*
-		 *
-		 * java8之前的调用方式：
-		 * Operation ope = new Operation() {
-		 *
-		 * @Override public void sayHello() { // TODO Auto-generated method stub
-		 *
-		 * }
-		 *
-		 * @Override public int calculate(int x, int y) { // TODO Auto-generated method
-		 * stub return 0; }
-		 *
-		 * };
-		 */
+		face = new IfaceImpl2();
+		face.run();
 
-		//Lambda表达式调用方式：
+		//3.局部内部类
+		class IfaceImpl3 implements Iface{
+			@Override
+			public void run() {
+				System.out.println("I like lambda3");
+			}
+		}
 
-//		Operation ope2 = () -> {
-//			System.out.println("hello");
-//		};
-//		ope2.sayHello();
+		face = new IfaceImpl3();
+		face.run();
 
-
-		Operation ope3 = (int x, int y) -> {
-			return x+y;
+		//4.匿名内部类,没有类的名称，必须借助接口或父类 new 接口()
+		face = new Iface() {
+			@Override
+			public void run() {
+				System.out.println("I like lambda4");
+			}
 		};
-		System.out.println(ope3.calculatexx(3, 8));
+		face.run();
 
-		//调用默认方法
-		ope3.mul(1, 2);
-		ope3.mul2(3, 4);
+		//5.********lambda表达式***********
+		face = () -> {
+			System.out.println("I like lambda5");
+		};
+		face.run();
 
-		//调用静态方法
-		Operation.div(10, 2);
-		Operation.div2(10, 2);
 
-		Xxx xx = new Xxx();
-		System.out.println(xx.calculatexx(1, 2));
+		//----------------华丽的分隔符-----------------------
+
+
+		IfaceParam faceParam = (int a) -> {
+			System.out.println("方式一，参数值：" + a);
+		};
+		faceParam.run(100);
+
+		faceParam = a -> {
+			System.out.println("方式二，参数值：" + a);
+		};
+		faceParam.run(200);
 
 	}
+}
+
+//定义函数式接口的条件如下：
+//1.只包含唯一一个抽象方法
+//2.可以有静态方法static
+//3.可以有默认方法default
+interface Iface{
+	public abstract void run();
+	//定义静态方法
+	public static void xx(){
+		System.out.println("xxxxxxxxxx");
+	}
+	public default int yy(){
+		return 0;
+	}
+}
+
+//1.实现类
+class IfaceImpl implements Iface{
+
+	@Override
+	public void run() {
+		System.out.println("I like lambda1");
+	}
+}
+
+//定义有参数的接口
+interface IfaceParam{
+	public abstract void run(int a);
+
+	public static void xx(){
+		System.out.println("xx");
+	}
+	public default int yy(){
+		return 0;
+	}
+
 }

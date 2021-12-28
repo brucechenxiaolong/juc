@@ -17,7 +17,7 @@ public class CountDownLatchDemo {
 			new Thread(() -> {
 				System.out.println(Thread.currentThread().getName() + "离开教室");
 				countDownLatch.countDown();
-			},String.valueOf(i) + "-threadName:").start();
+			}, String.valueOf(i) + "-threadName:").start();
 		}
 		countDownLatch.await();
 		System.out.println(Thread.currentThread().getName() + "离开教室");

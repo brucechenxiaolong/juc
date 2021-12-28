@@ -1,6 +1,7 @@
 package com.java.juc.threadpool;
 
-import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -8,28 +9,59 @@ import java.util.concurrent.*;
  * 现在有30个人来办理业务，需要等待的顾客是25位。
  */
 public class ThreadPoolDemo {
+
+//    private static List<String> list = new ArrayList<>();
+    private static List<String> list = new CopyOnWriteArrayList();//全局变量
+
+    //建议maxPoolSize=5;blockingQueue=3;加起来正好8 等于一般电脑的cpu处理器数
+    private static ExecutorService threadPool = new ThreadPoolExecutor(2,
+            5,
+            2L,TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(3),
+            Executors.defaultThreadFactory(),
+            new ThreadPoolExecutor.AbortPolicy());
+
     public static void main(String[] args) {
         //练习中使用，实际不用
 //        testThreadPool();
 
-
         //实际开发中使用
         //maximumPoolSize 大小设置可以是：cpu处理器个数+1
         //如何获取电脑的cpu处理器数
-        System.out.println(Runtime.getRuntime().availableProcessors());
+        System.out.println("CPU处理器数=" + Runtime.getRuntime().availableProcessors());
 
-        ExecutorService threadPool = new ThreadPoolExecutor(2,
-                5,
-                2L,TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(3),
-                Executors.defaultThreadFactory(),
-                new ThreadPoolExecutor.AbortPolicy());
-
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= 8; i++) {//i的最大值是：maxPoolSize+blockingQueue=8
+//            System.out.println("i="+i);
             threadPool.execute(() ->{
                 System.out.println("当前正在执行的线程是：" + Thread.currentThread().getName());
+                try {
+//                    TimeUnit.SECONDS.sleep(3);
+                    for (int j = 0; j < 5; j++) {
+                        list.add("xxx" + j);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                System.out.println(Thread.currentThread().getName() + "我终于执行完了。。。");
+
             });
+
+//            try {
+//                //线程休眠：可以演示出：corePoolSize的作用 只有2个线程在处理
+//                TimeUnit.SECONDS.sleep(3);
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
         }
+
+        try {
+            Thread.sleep(4000);
+            System.out.println("------------------------------------------");
+            System.out.println("list.size()=" + list.size());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private static void testThreadPool() {

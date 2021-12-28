@@ -44,6 +44,7 @@ public class ConcurrentLinkedQueueDemo {
         @Override
         public void run(){
             while (true){
+                //消费队列
                 if(!queue.isEmpty()){
                     LogOptBean logOptBean = queue.poll();
                     if(null != logOptBean){

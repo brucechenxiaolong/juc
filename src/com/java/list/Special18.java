@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.function.BiConsumer;
 
 /**
@@ -16,15 +17,82 @@ import java.util.function.BiConsumer;
  * parallelStream提供了流的并行处理，它是Stream的另一重要特性，其底层使用Fork/Join框架实现。简单理解就是多线程异步任务的一种实现。
  */
 public class Special18 {
+
     public static void main(String[] args) {
+
 //        listParallelStream();
 //        try {
 //            collectionUseType();
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        parallelStream();
 
+//        parallelStream();
+//        parallelStream2();
+
+        try {
+            testAdd();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * Collections.synchronizedList & CopyOnWriteArrayList在读写操作上的差距
+     * 写操作用：Collections.synchronizedList(new ArrayList<>());
+     * 读操作用：CopyOnWriteArrayList
+     * @throws Exception
+     */
+    private static void testAdd() throws Exception {
+
+        int THREAD_COUNT = 16;
+
+        List<Integer> list1 = new CopyOnWriteArrayList<Integer>();
+        List<Integer> list2 = Collections.synchronizedList(new ArrayList<Integer>());
+        Vector<Integer> v  = new Vector<Integer>();
+
+        CountDownLatch add_countDownLatch = new CountDownLatch(THREAD_COUNT);
+        ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);//线程池
+
+        int add_copyCostTime = 0;
+        int add_synchCostTime = 0;
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            add_copyCostTime += executor.submit(new AddTestTask(list1, add_countDownLatch)).get();
+        }
+        System.out.println("CopyOnWriteArrayList add method cost time is " + add_copyCostTime);
+
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            add_synchCostTime += executor.submit(new AddTestTask(list2, add_countDownLatch)).get();
+        }
+        System.out.println("Collections.synchronizedList add method cost time is " + add_synchCostTime);
+
+    }
+
+    private static void parallelStream2() {
+        //parallelStream-多线程操作资源类
+        List<Integer> integers = new ArrayList<Integer>();
+        for (int i = 0; i < 100; i++){
+            //插入100个数据
+            integers.add(i);
+        }
+        System.out.println("初始：" + integers.parallelStream().count());
+        //多管道遍历
+        List<Integer> integerList = new ArrayList<Integer>();//list不安全
+//        List<Integer> integerList = new CopyOnWriteArrayList<Integer>();//list线程安全
+
+        integers.parallelStream().forEach(e -> {
+            //添加list的方法
+            integerList.add(e);
+            try {
+                //休眠100ms，假装执行某些任务
+                Thread.sleep(100);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+        });
+        System.out.println("最后输出：" + integerList.parallelStream().count());//97
     }
 
     private static void listParallelStream() {
@@ -120,4 +188,29 @@ class User{
     private int age;
     private Date birthday;
     private String dateTime;
+}
+
+class AddTestTask implements Callable<Integer> {
+
+    private int NUM = 10000;
+
+    List<Integer> list;
+    CountDownLatch countDownLatch;
+
+    AddTestTask(List<Integer> list, CountDownLatch countDownLatch) {
+        this.list = list;
+        this.countDownLatch = countDownLatch;
+    }
+
+    @Override
+    public Integer call() throws Exception {
+        int num = new Random().nextInt(1000);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < NUM; i++) {
+            list.add(num);
+        }
+        long end = System.currentTimeMillis();
+        countDownLatch.countDown();
+        return (int) (end - start);
+    }
 }

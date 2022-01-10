@@ -48,7 +48,7 @@ public class TreadTest {
 //        }
 
         //线程反复调用不停止
-        new MainThread().start();
+//        new MainThread().start();
 
     }
 

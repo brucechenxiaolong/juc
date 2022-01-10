@@ -3,6 +3,8 @@ package com.java.dynamic;
 /**
  * 1.普通类只能单继承类或抽象类；
  * 2.可以实现多个接口
+ * 默认方法和静态方法不用在实现类中体现出来
+ *
  */
 public class ClassDemo extends AbstractDemo implements InterfaceDemo,InterfaceDemo2 {
 

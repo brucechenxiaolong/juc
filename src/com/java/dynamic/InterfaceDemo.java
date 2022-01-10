@@ -4,7 +4,7 @@ package com.java.dynamic;
  * 1.接口中的修饰符只能用public
  * 2.接口中可以定义常量
  * 3.1.8后，可以定义default修饰的默认方法；
- * 4.1.8后，可以定义
+ * 4.1.8后，可以定义静态方法
  */
 public interface InterfaceDemo {
 

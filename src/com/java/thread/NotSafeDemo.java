@@ -30,6 +30,7 @@ public class NotSafeDemo {
 	public static void main(String[] args) {
 
 		//list线程不安全解决方法
+		//java.util.ConcurrentModificationException
 		listNotSafeMethod();
 
 		//set线程不安全解决方法
@@ -47,12 +48,13 @@ public class NotSafeDemo {
 	 */
 	private static void listNotSafeMethod() {
 
+		//不安全的ArrayList
 		List list = new ArrayList<>();
 
 		//替换方式一：
 		//List list = new Vector<>();//xx版本适用于1.2
 		//替换方式二：
-		//List list = Collections.synchronizedList(new ArrayList<>());//Collections-接口工具类
+//		List list = Collections.synchronizedList(new ArrayList<>());//Collections-接口工具类
 //		List list = new CopyOnWriteArrayList();//解决ConcurrentModificationException异常的方案是：写时复制的list，java8 juc 新特性
 
 		//以下代码如果用：list = new ArrayList<>();  进行添加输出的结果是：抛异常：ConcurrentModificationException
@@ -63,6 +65,13 @@ public class NotSafeDemo {
 				System.out.println(list);
 			}, "" + i).start();
 		}
+
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println(list.size());//结果size<1000
 	}
 
 	/**

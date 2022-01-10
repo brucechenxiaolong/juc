@@ -10,11 +10,16 @@ public class NotSafeList {
 
     public static void main(String[] args) {
         NotSafeList notSafeList = new NotSafeList();
+        //1.线程不安全
         notSafeList.arrayList();
-        notSafeList.copyOnWriteArrayList();
+        //2.线程安全
+//        notSafeList.copyOnWriteArrayList();
 
     }
 
+    /**
+     * 1.线程不安全
+     */
     public void arrayList(){
         System.out.println("--------ArrayList,线程不安全-----------");
         List<String> list = new ArrayList<String>();
@@ -35,6 +40,9 @@ public class NotSafeList {
         System.out.println(list.size());//结果size<1000
     }
 
+    /**
+     * 2.线程安全
+     */
     public void copyOnWriteArrayList(){
 
         System.out.println("--------CopyOnWriteArrayList,线程安全-----------");

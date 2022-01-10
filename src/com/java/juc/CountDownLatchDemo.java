@@ -1,6 +1,7 @@
 package com.java.juc;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * CountDownLatch 辅助工具类的作用：

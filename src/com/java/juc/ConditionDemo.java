@@ -38,6 +38,10 @@ public class ConditionDemo {
 	}
 }
 
+/**
+ * 公共资源类
+ * 线程  操作  资源类
+ */
 class ShareData{
 	private int number = 1;//A=1;B=2;C=3
 	private Lock lock = new ReentrantLock();//锁

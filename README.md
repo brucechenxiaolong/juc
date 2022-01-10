@@ -1,9 +1,11 @@
 # juc use concurrent package coding your projects
 java.util.concurrent
 
-# include packages
+# include core packages
 java.util.concurrent.atomic
+
 java.util.concurrent.locks
+
 java.util.function
 
 # parallelStream-用法说明及注意事项：

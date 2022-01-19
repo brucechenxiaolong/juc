@@ -33,7 +33,7 @@ class User{
 public class StreamDemo {
     public static void main(String[] args) {
 
-//        listStreamFilter();
+        listStreamFilter();
 
 //        collectorsToList();
 //        collectorsToSet();
@@ -42,7 +42,7 @@ public class StreamDemo {
 //        collectorsMap();
 //        convertIndexName();
 //        streamMatch();
-        streamSord();
+//        streamSord();
 //        streamCollect();
 
 //四大函数式接口实例，为了满足java.util.stream
@@ -51,25 +51,29 @@ public class StreamDemo {
 
     private static void listStreamFilter() {
         //链式编程
-        User user1 = new User(11,"a",23, new Date(), "2021-01-01");
-        User user2 = new User(12,"b",24, new Date(), "2021-01-01");
-        User user3 = new User(13,"c",22, new Date(), "2021-01-01");
-        User user4 = new User(14,"d",28, new Date(), "2021-01-01");
-        User user5 = new User(16,"e",26, new Date(), "2021-01-01");
+        User user1 = new User(11,"zhangsan1",23, new Date(), "2021-01-01");
+        User user2 = new User(12,"zhangsan2",24, new Date(), "2021-01-01");
+        User user3 = new User(13,"lisi1",22, new Date(), "2021-01-01");
+        User user4 = new User(14,"lisi2",28, new Date(), "2021-01-01");
+        User user5 = new User(16,"wangwu",26, new Date(), "2021-01-01");
         List<User> list = Arrays.asList(user1,user2,user3,user4,user5);//一次性添加对象
 
         //流式计算，实现如下内容
         //流计算实现：找出以上满足条件的用户：偶数ID并且年龄大于24并且用户名转为大写并且用户名字母倒排序，最后只输出一个用户名。
-        list.stream().filter(t -> {
-            return t.getId() % 2 == 0;
-        }).filter(t -> {
-            return t.getAge() > 24;
-        }).map(t -> {
-            t.setUserName(t.getUserName().toUpperCase());
-            return t;
-        }).sorted((t1, t2) -> {
-            return (t2.getUserName()).compareTo(t1.getUserName());
-        }).limit(1).forEach(System.out::println);
+//        list.stream().filter(t -> {
+//            return t.getId() % 2 == 0;
+//        }).filter(t -> {
+//            return t.getAge() > 24;
+//        }).map(t -> {
+//            t.setUserName(t.getUserName().toUpperCase());
+//            return t;
+//        }).sorted((t1, t2) -> {
+//            return (t2.getUserName()).compareTo(t1.getUserName());
+//        }).limit(1).forEach(System.out::println);
+
+        //模糊查询
+        list.stream().filter(t -> t.getUserName().contains("zhangsan")).forEach(System.out::println);
+
     }
 
     /**

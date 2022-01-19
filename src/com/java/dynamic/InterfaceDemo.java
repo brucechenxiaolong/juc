@@ -11,9 +11,7 @@ public interface InterfaceDemo {
     //接口中：定义常量
     public static final String INTERFACE_XXX ="xxx";
 
-    public void eee();
-
-    public void fff();
+    void m1();
 
     //接口中可以定义多个默认方法
     public default int mul1(int x, int y) {

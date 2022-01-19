@@ -8,39 +8,38 @@ package com.java.dynamic;
  */
 public class ClassDemo extends AbstractDemo implements InterfaceDemo,InterfaceDemo2 {
 
-    private String jj = "";
     public String ii = "";
+    private String jj = "";
+    protected String kk = "";
 
     //private 只能类内部使用
-    private ClassDemo(String p1, String p2){
-        this.jj = p1;
-        this.ii = p2;
+    private ClassDemo(String i, String j){
+        this.ii = i;
+        this.jj = j;
     }
 
     //public 可以new使用
-    public ClassDemo(String p1, String p2, String p3){
-        this.jj = p1;
-        this.ii = p2;
+    public ClassDemo(String i, String j, String k){
+        this.ii = i;
+        this.jj = j;
+        this.kk = k;
     }
 
     @Override
-    public void xxx() {
+    public void method1() {
         ClassDemo xx = new ClassDemo("1","2");
         ClassDemo yy = new ClassDemo("1","2","3");
     }
 
+    //InterfaceDemo.m1
     @Override
-    public void eee() {
+    public void m1() {
 
     }
 
+    //InterfaceDemo2.m2
     @Override
-    public void fff() {
-
-    }
-
-    @Override
-    public void ggg() {
+    public void m2() {
 
     }
 }

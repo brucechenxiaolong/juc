@@ -20,6 +20,7 @@ public class CallableTest {
         //2.实现Callable接口，重写call方法（线程有返回值）
         //callableMethod02();
 
+        //--------------------------------------------callable的核心用法-------------------------------------------
         //3.一个方法中同时做了几件事，每一件事情都要返回结果，然后再合并处理
         /**
          * 如查一个数据集合，第一页至第一百页，返回总页数的总结集，然后导出。
@@ -28,10 +29,11 @@ public class CallableTest {
          * 利用多线程的特性，返回多个集合，在顺序合并成总集合。
          */
         //3.callable-有序
-//        method03();
+        method03();
 
         //4.callable-无序
-        method04();
+//        method04();
+        //---------------------------------------------callable的核心用法------------------------------------------
     }
 
     /**
@@ -127,11 +129,12 @@ public class CallableTest {
      */
     private static void callableMethod01() throws InterruptedException, ExecutionException {
         Obj obj = new Obj();
+        System.out.println("开始调用callable线程...");
         FutureTask<String> task = new FutureTask<>(() ->
             obj.getStr()
         );
         new Thread(task, "BB").start();
-        System.out.println("线程调用返回值是：" + task.get());
+        System.out.println("callable线程调用返回值是：" + task.get());
     }
 
 }
@@ -180,9 +183,11 @@ class User{
 
 class Obj{
     public String getStr(){
-        if(1 == 1){
-            int i = 1/0;
-        }
+//        if(1 == 1){
+//            int i = 1/0;
+//        }
+        //现场休眠3秒
+        try {TimeUnit.SECONDS.sleep(5);} catch (InterruptedException e) {e.printStackTrace();}
         return "xxxxx";
     }
 }

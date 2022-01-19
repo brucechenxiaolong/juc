@@ -14,7 +14,7 @@ public class ThreadPoolDemo {
 
     //建议 maximumPoolSize=5;blockingQueue=3;加起来正好16 等于一般电脑的cpu处理器数
     private static ExecutorService threadPool = new ThreadPoolExecutor(2,
-            3,
+            10,
             2L,TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(3),
             Executors.defaultThreadFactory(),
@@ -31,9 +31,10 @@ public class ThreadPoolDemo {
 
         //模拟多个线程操作
         //请求的线程过多，会有报错：java.util.concurrent.RejectedExecutionException
-        for (int i = 1; i <= 30; i++) {//i的最大值是：maximumPoolSize+blockingQueue=16
+        for (int i = 1; i <= 13; i++) {//i的最大值是：maximumPoolSize+blockingQueue=16
 //            System.out.println("i="+i);
             threadPool.execute(() ->{
+
                 System.out.println("当前正在执行的线程是：" + Thread.currentThread().getName());
                 try {
 //                    TimeUnit.SECONDS.sleep(3);

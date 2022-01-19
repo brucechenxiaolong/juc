@@ -12,29 +12,25 @@ public abstract class AbstractDemo {
 
     protected static final String HHH = "hhh111";
 
-    public String ccc = "";
-
     private String ddd = "ddd";
 
-    public abstract void xxx();//抽象方法
+    public abstract void method1();//抽象方法
 
-    private void bbb(){
+    private void method2(){
         System.out.println("method-bbb");
-        System.out.println(this.BBB);
+        System.out.println(BBB);
     }
 
-    public void ccc(){
+    public void method3(){
         System.out.println("method-ccc");
         System.out.println(this.ddd);
     }
 
-    protected void ccc2(){
-
+    protected void method4(){
         System.out.println("method-ccc2");
     }
 
-    private void ccc3(){
-
+    private void method5(){
         System.out.println("method-ccc3");
     }
 

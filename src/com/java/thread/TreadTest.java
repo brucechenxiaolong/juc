@@ -50,6 +50,16 @@ public class TreadTest {
         //线程反复调用不停止
 //        new MainThread().start();
 
+        for (int i = 1; i <= 10; i++) {
+            final int ii = i;
+            new Thread(()->{
+                //TODO please coding
+                System.out.println("xxx" + ii);
+                Thread.currentThread().interrupt();
+                System.out.println(Thread.currentThread().getName() + "\t stop");
+            }, "t" + i).start();
+        }
+
     }
 
 }
